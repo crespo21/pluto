@@ -1,13 +1,8 @@
 """Database engine and session management utilities."""
-
 from __future__ import annotations
 
-import os
 from contextlib import contextmanager
-from pathlib import Path
 from typing import Generator, Iterator
-
-from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -25,7 +20,6 @@ def init_db() -> None:
     """Create database tables based on the ORM metadata."""
 
     Base.metadata.create_all(bind=engine)
-
 
 @contextmanager
 def session_scope() -> Iterator[Session]:
