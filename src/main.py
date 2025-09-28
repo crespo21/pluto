@@ -17,13 +17,11 @@ app = FastAPI(
 # Include routers with API prefix
 app.include_router(user_router, prefix="/api")
 
-
 @app.on_event("startup")
 async def startup_event():
     """Initialize database on startup."""
     # This is convenient for development but use Alembic for production migrations
     init_db()
-
 
 @app.get("/", tags=["Health"])
 async def health():
