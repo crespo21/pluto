@@ -6,7 +6,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from src.infrastructure.database.config import DATABASE_URL
+from src.properties.settings import settings
 from src.infrastructure.database.models.user_model import Base
 
 # this is the Alembic Config object, which provides
@@ -16,8 +16,8 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# set the SQLAlchemy URL from environment or default
-config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL", DATABASE_URL))
+# set the SQLAlchemy URL from settings
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 target_metadata = Base.metadata
 

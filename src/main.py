@@ -2,18 +2,20 @@
 
 from fastapi import FastAPI
 
+from src.properties.settings import settings
 from src.infrastructure.database.config import init_db
-from src.presentation.api.user_controller import router as user_router
+from src.presentation.api.endpoints.user.user_endpoints import router as user_router
 
 # Create and configure FastAPI application
 app = FastAPI(
-    title="Pluto API",
-    description="Clean architecture example API for user management",
-    version="0.1.0",
+    title=settings.API_TITLE,
+    description=settings.API_DESCRIPTION,
+    version=settings.API_VERSION,
+    debug=settings.DEBUG,
 )
 
-# Include routers
-app.include_router(user_router)
+# Include routers with API prefix
+app.include_router(user_router, prefix="/api")
 
 
 @app.on_event("startup")

@@ -4,20 +4,20 @@ from __future__ import annotations
 
 import os
 from contextlib import contextmanager
+from pathlib import Path
 from typing import Generator, Iterator
 
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from src.infrastructure.database.models.user_model import Base
 
-DEFAULT_SQLITE_URL = "sqlite:///./pluto.db"
-
-DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_SQLITE_URL)
-ECHO_SQL = os.getenv("SQLALCHEMY_ECHO", "0") == "1"
+# Import settings from centralized config
+from src.properties.settings import settings
 
 
-engine = create_engine(DATABASE_URL, future=True, echo=ECHO_SQL)
+engine = create_engine(settings.DATABASE_URL, future=True, echo=settings.SQLALCHEMY_ECHO)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
 
 
