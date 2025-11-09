@@ -1,6 +1,7 @@
 """Pydantic models for API requests and responses."""
 
 from typing import Optional
+from decimal import Decimal
 
 from pydantic import BaseModel, Field
 
@@ -26,7 +27,7 @@ class UserCreate(BaseModel):
 class UserResponse(BaseModel):
     """Schema for user responses."""
     
-    id: Optional[int] = None
+    product_id: Optional[int] = None
     username: str
     email: str
     status: str
@@ -34,7 +35,7 @@ class UserResponse(BaseModel):
     model_config = {
         "json_schema_extra": {
             "example": {
-                "id": 1,
+                "product_id": 1,
                 "username": "johndoe",
                 "email": "john.doe@example.com",
                 "status": "active"
@@ -63,3 +64,46 @@ class UserStatusUpdate(BaseModel):
             }
         }
     }
+
+class ProductCreate(BaseModel):
+    """Schema for product creation requests."""
+  
+    name: str = Field(..., min_length=1, max_length=100, description="Product name")
+    price: Decimal = Field(..., gt=0, description="Product price (must be positive)")
+    description: str = Field(default="", max_length=500, description="Product description")
+  
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "name": "Laptop",
+                "price": 999.99,
+                "description": "High-performance laptop"
+            }
+        }
+    }
+
+class ProductResponse(BaseModel):
+    """Schema for product responses."""
+  
+    product_id: Optional[int] = None
+    name: str
+    price: Decimal
+    description: str
+  
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "product_id": 1,
+                "name": "Laptop", 
+                "price": 999.99,
+                "description": "High-performance laptop"
+            }
+        }
+    }
+
+class ProductUpdate(BaseModel):
+    """Schema for product updates."""
+  
+    name: Optional[str] = Field(None, min_length=1, max_length=100)
+    price: Optional[Decimal] = Field(None, gt=0)
+    description: Optional[str] = Field(None, max_length=500)
