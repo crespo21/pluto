@@ -4,6 +4,10 @@ from decimal import Decimal
 class Product:
 
    def __init__(self, product_id: Optional[int], name: str, price: Decimal, description: str):
+      if not name or len(name.strip()) == 0:
+         raise ValueError("Product name cannot be empty")
+      if price <= 0:
+         raise ValueError("Product price must be greater than 0")
 
       self.product_id = product_id
       self.name = name

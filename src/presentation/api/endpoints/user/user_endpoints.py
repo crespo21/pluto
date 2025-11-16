@@ -17,7 +17,7 @@ def _dto_to_response(user_dto: UserDTO) -> UserResponse:
     """Convert a UserDTO to a UserResponse."""
     data = user_dto.to_dict()
     return UserResponse(
-        product_id=data["id"],
+        user_id=data["id"],
         username=data["username"],
         email=data["email"],
         status=data["status"],
