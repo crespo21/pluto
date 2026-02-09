@@ -40,7 +40,7 @@ src/
 
 ### Prerequisites
 
-- Python 3.9+ installed on your system
+- Python 3.11+ installed on your system (3.13 recommended)
 - Basic terminal/command line knowledge
 
 ### Step 1: Get the Code
