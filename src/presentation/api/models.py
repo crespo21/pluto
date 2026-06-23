@@ -63,3 +63,31 @@ class UserStatusUpdate(BaseModel):
             }
         }
     }
+
+
+class ProductCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    price: float
+    sku: str
+    status: str = "available"
+
+
+class ProductResponse(BaseModel):
+    id: Optional[int] = None
+    name: str
+    price: float
+    sku: str
+    status: str
+
+
+class CategoryCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    status: str = "active"
+
+
+class CategoryResponse(BaseModel):
+    id: Optional[int] = None
+    name: str
+    status: str

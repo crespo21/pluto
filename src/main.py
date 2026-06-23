@@ -6,6 +6,8 @@ from fastapi import FastAPI
 from src.properties.settings import settings
 from src.infrastructure.database.config import init_db
 from src.presentation.api.endpoints.user.user_endpoints import router as user_router
+from src.presentation.api.endpoints.product.product_endpoints import router as product_router
+from src.presentation.api.endpoints.category.category_endpoints import router as category_router
 
 
 @asynccontextmanager
@@ -26,6 +28,9 @@ app = FastAPI(
 
 # Include routers with API prefix
 app.include_router(user_router, prefix="/api")
+app.include_router(product_router, prefix="/api")
+app.include_router(category_router, prefix="/api")
+
 
 @app.get("/", tags=["Health"])
 async def health():
