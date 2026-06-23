@@ -13,7 +13,7 @@ from src.properties.settings import settings
 
 
 engine = create_engine(settings.DATABASE_URL, future=True, echo=settings.SQLALCHEMY_ECHO)
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
+SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
 
 def init_db() -> None:

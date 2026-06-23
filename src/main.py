@@ -1,10 +1,19 @@
 """FastAPI application setup and dependency wiring."""
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.properties.settings import settings
 from src.infrastructure.database.config import init_db
 from src.presentation.api.endpoints.user.user_endpoints import router as user_router
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize database before the application starts."""
+    init_db()
+    yield
+
 
 # Create and configure FastAPI application
 app = FastAPI(
@@ -12,16 +21,11 @@ app = FastAPI(
     description=settings.API_DESCRIPTION,
     version=settings.API_VERSION,
     debug=settings.DEBUG,
+    lifespan=lifespan,
 )
 
 # Include routers with API prefix
 app.include_router(user_router, prefix="/api")
-
-@app.on_event("startup")
-async def startup_event():
-    """Initialize database on startup."""
-    # This is convenient for development but use Alembic for production migrations
-    init_db()
 
 @app.get("/", tags=["Health"])
 async def health():
